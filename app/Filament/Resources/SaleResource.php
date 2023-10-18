@@ -3,22 +3,23 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\Sale;
 use Filament\Tables;
-use App\Models\Product;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\ProductResource\Pages;
+use Filament\Forms\Components\DateTimePicker;
+use App\Filament\Resources\SaleResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Filament\Resources\SaleResource\RelationManagers;
 
-class ProductResource extends Resource
+class SaleResource extends Resource
 {
-    protected static ?string $model = Product::class;
-    protected static ?int $navigationSort = 3;
+    protected static ?string $model = Sale::class;
+    protected static ?int $navigationSort = 5;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -26,15 +27,18 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('price')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('qty')
-                    ->required()
-                    ->maxLength(255)
+                DateTimePicker::make('sale_date'),
+                Select::make('customers', 'customer_id')
+                ->multiple()
+                ->preload()
+                ->options(\App\Models\Customer::all()->pluck('name', 'id')->toArray()),
+                Select::make('products', 'product_id')
+                ->multiple()
+                ->preload()
+                ->options(\App\Models\Product::all()->pluck('name', 'id')->toArray()),
+                TextInput::make('quantity')
+                ->required()
+                ->maxLength(255),
             ]);
     }
 
@@ -42,12 +46,7 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('price')
-                    ->searchable(),
-                TextColumn::make('qty')
-                    ->searchable(),
+                //
             ])
             ->filters([
                 //
@@ -75,9 +74,9 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'index' => Pages\ListSales::route('/'),
+            'create' => Pages\CreateSale::route('/create'),
+            'edit' => Pages\EditSale::route('/{record}/edit'),
         ];
     }    
 }

@@ -4,21 +4,21 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Product;
+use App\Models\Customer;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\ProductResource\Pages;
+use App\Filament\Resources\CustomerResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Filament\Resources\CustomerResource\RelationManagers;
 
-class ProductResource extends Resource
+class CustomerResource extends Resource
 {
-    protected static ?string $model = Product::class;
-    protected static ?int $navigationSort = 3;
+    protected static ?string $model = Customer::class;
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -26,13 +26,26 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
+                TextInput::make('business_name')
                     ->required()
                     ->maxLength(255),
-                TextInput::make('price')
+                TextInput::make('customer_name')
                     ->required()
                     ->maxLength(255),
-                TextInput::make('qty')
+                TextInput::make('address1')
+                    ->required()
+                    ->maxLength(255),
+                TextInput::make('address2')
+                    ->maxLength(255),
+                TextInput::make('contact1')
+                    ->required()
+                    ->maxLength(255),
+                TextInput::make('contact2')
+                    ->maxLength(255),
+                TextInput::make('ref_name')
+                    ->required()
+                    ->maxLength(255),
+                TextInput::make('ref_number')
                     ->required()
                     ->maxLength(255)
             ]);
@@ -42,11 +55,13 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')
+                TextColumn::make('business_name')
                     ->searchable(),
-                TextColumn::make('price')
+                TextColumn::make('customer_name')
                     ->searchable(),
-                TextColumn::make('qty')
+                TextColumn::make('contact1')
+                    ->searchable(),
+                TextColumn::make('ref_name')
                     ->searchable(),
             ])
             ->filters([
@@ -75,9 +90,9 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'index' => Pages\ListCustomers::route('/'),
+            'create' => Pages\CreateCustomer::route('/create'),
+            'edit' => Pages\EditCustomer::route('/{record}/edit'),
         ];
     }    
 }

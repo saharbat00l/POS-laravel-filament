@@ -30,7 +30,8 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             // ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Teal
+                ,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
