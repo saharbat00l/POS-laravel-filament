@@ -18,4 +18,7 @@ class Vendor extends Model
         'contact2',
         'description',
     ];
+
+    protected $primaryKey = 'vendor_id';
+
 }

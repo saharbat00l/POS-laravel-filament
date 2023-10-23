@@ -29,15 +29,27 @@ class PurchaseResource extends Resource
         return $form
             ->schema([
                 DateTimePicker::make('purchase_date'),
-                Select::make('vendors', 'vendor_id')
-                ->multiple()
+
+                Select::make('vendors')
+               ->preload()
+               ->options(\App\Models\Vendor::all()->pluck('business_name', 'vendor_id')),
+
+
+            //    ->relationship('vendors', 'business_name'),
+            //     Select::make('products')
+            //    ->preload()
+            //    ->relationship('products', 'name'),
+               
+                Select::make('product_id')
+                ->label('Product')
+                ->options(\App\Models\Product::all()->pluck('name', 'product_id'))
                 ->preload()
-                ->options(\App\Models\Vendor::all()->pluck('name', 'id')->toArray()),
-                Select::make('products', 'product_id')
-                ->multiple()
-                ->preload()
-                ->options(\App\Models\Product::all()->pluck('name', 'id')->toArray()),
+                ->required(),
+
                TextInput::make('quantity')
+               ->required()
+               ->maxLength(255),
+               TextInput::make('purchase_price')
                ->required()
                ->maxLength(255),
             ]);
@@ -50,11 +62,13 @@ class PurchaseResource extends Resource
                 TextColumn::make('purchase_date')
                     ->dateTime('d-M-Y')->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('vendor')
+                TextColumn::make('vendors.business_name')
                 ->searchable(),
-                TextColumn::make('product')
+                TextColumn::make('products')
                 ->searchable(),
                 TextColumn::make('quantity')
+                ->searchable(),
+                TextColumn::make('purchase_price')
                 ->searchable(),
             ])
             ->filters([
