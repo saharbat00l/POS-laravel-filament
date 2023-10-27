@@ -2,33 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Vendor;
+use App\Models\PurchaseDetail;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Purchase extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'purchase_date',
-        'vendor_id',
-        'product_id',
-        'quantity',
-        'purchase_price',
+        'date', 'vendor_id', 'product_id', 'quantity',
+        'purchase_price'
     ];
 
-
-    protected $primaryKey = 'purchase_id, product_id';
-
-
-
-    public function products():BelongsTo {
-        return $this->belongsTo(Product::class, 'product_id');
+    public function vendor(): BelongsTo
+    {
+        return $this->belongsTo(Vendor::class);
     }
 
-
-    public function vendors():BelongsTo {
-        return $this->belongsTo(Vendor::class, 'vendor_id');
+    public function purchaseDetails(): HasMany
+    {
+        return $this->hasMany(PurchaseDetail::class);
     }
+
 }

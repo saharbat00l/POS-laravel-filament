@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('purchases', function (Blueprint $table) {
-            $table->id('purchase_id');
-            $table->date('purchase_date');
-            $table->string('vendor_id');
-            $table->string('product_id');
-            $table->integer('quantity');
-            $table->integer('purchase_price');
+            $table->id();
+            $table->date('date');
+            $table->foreignId('vendor_id')->constrained('vendors')->cascadeOnDelete();
+            // $table->decimal('purchase_price', 10, 2);
+            //mei call pe explain kr deti 
+            // ok
             $table->timestamps();
         });
     }

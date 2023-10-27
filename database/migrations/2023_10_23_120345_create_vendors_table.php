@@ -12,14 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('vendors', function (Blueprint $table) {
-            $table->id('vendor_id');
+            $table->id();
             $table->string('business_name');
+            $table->foreignId('parent_id')
+            ->nullable() ->constrained('vendors') ->cascadeOnDelete();
             $table->string('person_name');
-            $table->text('address1');
-            $table->text('address2');
-            $table->integer('contact1');
-            $table->integer('contact2');
-            $table->text('description');
+            $table->string('address1');
+            $table->string('address2');
+            $table->string('contact1');
+            $table->string('contact2');
+            $table->string('business_email');
+            $table->string('personal_email');
+            $table->longText('description');
+
             $table->timestamps();
         });
     }

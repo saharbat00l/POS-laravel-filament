@@ -4,10 +4,12 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Vendor;
 use App\Models\Product;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,22 +21,25 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
     protected static ?int $navigationSort = 3;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    public static function getNavigationBadge(): ?string
+    {
+        return Product::count();
+    }
 
     public static function form(Form $form): Form
     {
+        $vendors = Vendor::orderBy('business_name','asc')->get()->pluck('business_name','id');
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('price')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('qty')
-                    ->required()
-                    ->maxLength(255)
+                // $form->belongsTo('vendor_id', 'Vendor')->filters('vendor_id', 'business_name'),
+                //ye jo Select k sath relation bnana
+                Select::make('vendor_id')->required()->options($vendors),
+                TextInput::make('product_name')->required(),
+                TextInput::make('size')->required(),
+                TextInput::make('quantity')->required(),
+                TextInput::make('purchase_price')->required(),
+                TextInput::make('sale_price')->required(),
             ]);
     }
 
@@ -42,12 +47,20 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')
+                TextColumn::make('vendor.business_name')
                     ->searchable(),
-                TextColumn::make('price')
+                TextColumn::make('product_name')
                     ->searchable(),
-                TextColumn::make('qty')
+                TextColumn::make('size')
                     ->searchable(),
+                TextColumn::make('quantity')
+                    ->searchable(),
+                TextColumn::make('purchase_price')
+                    ->searchable()
+                    ->money('Rs.'),
+                TextColumn::make('sale_price')
+                    ->searchable()
+                    ->money('Rs.'),
             ])
             ->filters([
                 //

@@ -12,16 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->id('customer_id');
+            $table->id();
             $table->string('business_name');
-            $table->string('customer_name');
-            $table->unique('customer_id');
-            $table->text('address1');
-            $table->text('address2');
-            $table->integer('contact1');
-            $table->integer('contact2')->nullable();
-            $table->text('ref_name');
-            $table->text('ref_number');
+            $table->string('person_name');
+            $table->string('address1');
+            $table->string('address2');
+            $table->string('contact1');
+            $table->string('contact2');
+            $table->string('business_email');
+            $table->string('personal_email');
+            $table->string('referred_by');
+            $table->longText('description');
             $table->timestamps();
         });
     }

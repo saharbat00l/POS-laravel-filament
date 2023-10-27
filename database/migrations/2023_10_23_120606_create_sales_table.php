@@ -12,13 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sales', function (Blueprint $table) {
-            $table->id('sale_id');
-            $table->date('sale_date');
-            $table->string('customer');
-            $table->string('product');
-            $table->integer('quantity');
-            $table->integer('sale_price');
-            $table->integer('scheme');
+            $table->id();
+            $table->date('date');
+            $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
+            $table->decimal('sale_price', 10, 2);
             $table->timestamps();
         });
     }
