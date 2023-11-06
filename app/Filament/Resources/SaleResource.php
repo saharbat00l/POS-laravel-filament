@@ -27,7 +27,7 @@ class SaleResource extends Resource
 {
     protected static ?string $model = Sale::class;
     protected static ?int $navigationSort = 5;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
     public static function getNavigationBadge(): ?string
     {
         return Sale::count();
@@ -65,9 +65,10 @@ class SaleResource extends Resource
                     ->searchable(),
                 TextColumn::make('customer.business_name')
                     ->searchable(),
-                TextColumn::make('sale_price')
-                    ->searchable()
-                    ->money('Rs.'),
+                TextColumn::make('saleDetails.product.product_name'),
+                TextColumn::make('saleDetails.product.sale_price')
+                    ->formatStateUsing(fn (string $state): string => __('Rs '.array_sum(explode(',', $state))))
+        
             ])
             ->filters([
                 //

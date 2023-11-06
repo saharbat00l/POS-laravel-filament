@@ -2,11 +2,12 @@
 
 namespace App\Filament\Resources\PurchaseResource\Pages;
 
-use App\Filament\Resources\PurchaseResource;
-use App\Models\PurchaseDetail;
 use Filament\Actions;
-use Filament\Resources\Pages\CreateRecord;
+use App\Models\Product;
+use App\Models\PurchaseDetail;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Resources\Pages\CreateRecord;
+use App\Filament\Resources\PurchaseResource;
 
 class CreatePurchase extends CreateRecord
 {
@@ -30,11 +31,23 @@ class CreatePurchase extends CreateRecord
                 $purchase_detail['quantity'] = $value['quantity'];
                 $purchase_detail['purchase_price'] = $value['purchase_price'];
                 PurchaseDetail::create($purchase_detail);
+
+                
+                $product_id = $value['product'];
+                $quantity = $value['quantity'];
+                $product = Product::find($product_id);
+                $product->quantity = $product->quantity + $quantity;
+                $product->save();
+            
             }
         //  return true;   
             
         }
 	    //
+ 
         return $result;
 	}
+
+
+   
 }

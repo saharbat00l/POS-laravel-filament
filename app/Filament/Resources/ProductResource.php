@@ -21,7 +21,7 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
     protected static ?int $navigationSort = 3;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-star';
     public static function getNavigationBadge(): ?string
     {
         return Product::count();

@@ -21,7 +21,7 @@ class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
     protected static ?int $navigationSort = 2;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
     public static function getNavigationBadge(): ?string
     {
         return Customer::count();
@@ -40,7 +40,7 @@ class CustomerResource extends Resource
                 TextInput::make('business_email')->required(),
                 TextInput::make('personal_email'),
                 TextInput::make('referred_by')->required(),
-                RichEditor::make('description')
+                RichEditor::make('description')->required()
                  ->toolbarButtons([
                      'bold',
                      'bulletList',

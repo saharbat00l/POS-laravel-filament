@@ -47,7 +47,7 @@ class VendorResource extends Resource
                 TextInput::make('business_email')->required(),
                 TextInput::make('personal_email'),
                 // MarkdownEditor::make('description')->required(),
-                RichEditor::make('description')
+                RichEditor::make('description') ->required()
                 ->toolbarButtons([
                     'bold',
                     'bulletList',
