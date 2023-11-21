@@ -21,6 +21,7 @@ use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\SaleResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SaleResource\RelationManagers;
+use App\Http\Controllers\InvoicesController;
 use Faker\Provider\ar_EG\Text;
 
 class SaleResource extends Resource
@@ -66,7 +67,7 @@ class SaleResource extends Resource
                 TextColumn::make('customer.business_name')
                     ->searchable(),
                 TextColumn::make('saleDetails.product.product_name'),
-                TextColumn::make('saleDetails.product.sale_price')
+                TextColumn::make('saleDetails.sale_price')
                     ->formatStateUsing(fn (string $state): string => __('Rs '.array_sum(explode(',', $state))))
         
             ])
@@ -75,6 +76,11 @@ class SaleResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('Get Invoice')
+                // ->icon('heroicon-o-document-download')
+                ->url(fn (Sale $sale) => route('get-pdf', ['saleID' => $sale->id]))
+                ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

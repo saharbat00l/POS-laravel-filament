@@ -27,6 +27,12 @@ class Purchase extends Model
     {
         return $this->hasMany(PurchaseDetail::class);
     }
+
+    // public function vendorDetails(): HasMany
+    // {
+    //     return $this->hasMany(Vendor::class, 'id', 'id');
+    // }
+
     
 
 }

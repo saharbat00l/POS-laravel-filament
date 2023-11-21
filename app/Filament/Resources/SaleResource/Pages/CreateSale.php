@@ -3,10 +3,11 @@
 namespace App\Filament\Resources\SaleResource\Pages;
 
 use Filament\Actions;
+use App\Models\Product;
 use App\Models\SaleDetail;
+use Illuminate\Database\Eloquent\Model;
 use App\Filament\Resources\SaleResource;
 use Filament\Resources\Pages\CreateRecord;
-use Illuminate\Database\Eloquent\Model;
 
 class CreateSale extends CreateRecord
 {
@@ -33,6 +34,12 @@ class CreateSale extends CreateRecord
                $sale_detail['scheme'] = $value['scheme'];
                $sale_detail['sale_price'] = $value['sale_price'];
                SaleDetail::create($sale_detail);
+
+               $product_id = $value['product'];
+               $quantity = $value['quantity'];
+               $product = Product::find($product_id);
+               $product->quantity = $product->quantity - $quantity;
+               $product->save();
            }
        //  return true;   
            

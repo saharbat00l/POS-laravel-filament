@@ -66,8 +66,6 @@ class PurchaseResource extends Resource
                 TextColumn::make('vendor.business_name')
                 ->searchable(),
                 TextColumn::make('purchaseDetails.product.product_name'),
-
- 
                 TextColumn::make('purchaseDetails.purchase_price')
                 ->formatStateUsing(fn (string $state): string => __('Rs '.array_sum(explode(',', $state))))
 
@@ -109,6 +107,7 @@ class PurchaseResource extends Resource
             'index' => Pages\ListPurchases::route('/'),
             'create' => Pages\CreatePurchase::route('/create'),
             'edit' => Pages\EditPurchase::route('/{record}/edit'),
+            // 'invoice' => Pages\Invoice::route('/{record}/invoice'),
         ];
     }    
 }

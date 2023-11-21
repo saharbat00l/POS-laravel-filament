@@ -15,8 +15,10 @@ class Sale extends Model
 
     protected $fillable = [
         'date', 'customer_id',  
-        // 'sale_price'
+        'sale_price'
     ];
+
+    protected $with = ['saleDetails','customer', 'vendor'];
 
     public function customer(): BelongsTo
     {
@@ -28,5 +30,9 @@ class Sale extends Model
         return $this->hasMany(SaleDetail::class);
     }
 
+    public function vendor(): BelongsTo
+    {
+        return $this->belongsTo(Vendor::class);
+    }
 
 }

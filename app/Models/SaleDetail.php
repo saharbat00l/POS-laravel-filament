@@ -16,6 +16,8 @@ class SaleDetail extends Model
         'sale_id', 'product_id', 'quantity', 'sale_price', 'scheme'
     ];
 
+    protected $with = ['product'];
+
     public function sale(): BelongsTo
     {
         return $this->belongsTo(Sale::class);
