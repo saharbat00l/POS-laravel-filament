@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InvoicesController;
+use App\Http\Controllers\LedgerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +20,4 @@ Route::get('/', function () {
 });
 
 Route::get('/get-pdf/{saleID}', [InvoicesController::class, 'pdfview'])->name('get-pdf');
+Route::get('get-ledger/{customer_id}', [LedgerController::class, 'ledgerView']);

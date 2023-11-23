@@ -37,7 +37,7 @@ class LedgerResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -60,7 +60,7 @@ class LedgerResource extends Resource
     {
         return [
             'index' => Pages\ListLedgers::route('/'),
-            'create' => Pages\CreateLedger::route('/create'),
+            // 'create' => Pages\CreateLedger::route('/create'),
             'edit' => Pages\EditLedger::route('/{record}/edit'),
         ];
     }    
