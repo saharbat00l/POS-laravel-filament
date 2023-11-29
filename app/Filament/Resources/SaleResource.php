@@ -9,20 +9,21 @@ use App\Models\Product;
 use App\Models\Customer;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Faker\Provider\ar_EG\Text;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Date;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
+use App\Http\Controllers\InvoicesController;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\SaleResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SaleResource\RelationManagers;
-use App\Http\Controllers\InvoicesController;
-use Faker\Provider\ar_EG\Text;
 
 class SaleResource extends Resource
 {
@@ -41,7 +42,7 @@ class SaleResource extends Resource
         $customers = Customer::orderBy('business_name','asc')->get()->pluck('business_name','id');
         return $form
             ->schema([
-                DateTimePicker::make('date')->required(),
+                DatePicker::make('date')->required()->default(now()),
                 Select::make('customer_id')->required()->options($customers),
                 // TextInput::make('purchase_price')->required(),
 
@@ -62,8 +63,7 @@ class SaleResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('date')
-                    ->searchable(),
+                TextColumn::make('date'),
                 TextColumn::make('customer.business_name')
                     ->searchable(),
                 TextColumn::make('saleDetails.product.product_name'),
@@ -79,7 +79,7 @@ class SaleResource extends Resource
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('Get Invoice')
                 // ->icon('heroicon-o-document-download')
-                ->url(fn (Sale $sale) => route('get-pdf', ['saleID' => $sale->id]))
+                ->url(fn (Sale $sale) => route('get-pdf', ['id' => $sale->id]))
                 ->openUrlInNewTab(),
             ])
             ->bulkActions([

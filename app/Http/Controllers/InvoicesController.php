@@ -16,7 +16,7 @@ class InvoicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function pdfview(Request $request, $saleID)
+    public function pdfview(Request $request, $id)
     {
         // $url = route('get-pdf', ['saleID' => $saleID]);
 
@@ -25,7 +25,7 @@ class InvoicesController extends Controller
 
         // $saleID = $saleID->id;
         // $id = Sale::find($saleID);
-        $salesdata = Sale::find($saleID);
+        $salesdata = Sale::find($id);
         // dd($salesdata->toArray(), $saleID);
 //         $customer = Sale::with('customer')->find($saleID);
 
@@ -54,8 +54,8 @@ class InvoicesController extends Controller
         // dd($salesdata);
 
         // if($request->has('download')){
-            $pdf = Pdf::loadView('pdf.invoice-pdf', compact('salesdata'));
-            return $pdf->download('pdfview.pdf');
+            // $pdf = Pdf::loadView('pdf.invoice-pdf', compact('salesdata'));
+            // return $pdf->download('pdfview.pdf');
         // }
 
 

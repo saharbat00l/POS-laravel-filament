@@ -43,16 +43,16 @@
 
     <div class="ledger">
         <h1>Filament POS Ledger</h1>
-        <p>Date: {{ $customer['created_at'] }}</p>
+        <p>Date: {{ $vendor['created_at'] }}</p>
 
-        <h3>Customer Details:</h3>
-        <p>Customer's Name: {{$customer['business_name'] }}</p>
-        <p>Email: {{$customer['business_email'] }}</p>
-        <p>Address: {{$customer['address1'] }}</p>
-        <p>Contact Number: {{$customer['contact1'] }}</p>
+        <h3>Vendor Details:</h3>
+        <p>Vendor's Name: {{$vendor['business_name'] }}</p>
+        <p>Email: {{$vendor['business_email'] }}</p>
+        <p>Address: {{$vendor['address1'] }}</p>
+        <p>Contact Number: {{$vendor['contact1'] }}</p>
 
-        <h3>Sales Details:</h3>
-        @if(!empty($customer['sales']))
+        <h3>Purchase Details:</h3>
+        @if(!empty($vendor['sales']))
         <table>
             <thead>
                 <tr>
@@ -63,7 +63,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($customer['sales'] as $key => $sale)
+                @foreach($vendor['sales'] as $key => $sale)
                 @if(!empty($sale['sale_details']))
                     @foreach($sale['sale_details'] as $index => $sale_detail)
                     <tr>
@@ -80,7 +80,7 @@
                     <td>
                         @php
                             $total = 0;
-                            foreach($customer['sales'] as $key => $sale) {
+                            foreach($vendor['sales'] as $key => $sale) {
                                 if(!empty($sale['sale_details'])) {
                                     foreach($sale['sale_details'] as $index => $sale_detail) {
                                         $total += $sale_detail['sale_price'];

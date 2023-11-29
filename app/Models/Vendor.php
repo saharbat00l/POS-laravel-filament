@@ -17,8 +17,7 @@ class Vendor extends Model
         'description'
     ];
 
-
-
+    protected $with = ['parent', 'children', 'purchases'];
 
     public function parent(): BelongsTo
     {
